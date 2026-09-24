@@ -87,9 +87,9 @@ Let the input dataset sizes be denoted by:
 
 ### Case A: “Bill Voted On Date”
 1. **Schema Extension**:
-   * In legislative proceedings, voting events occur at specific timestamps. We would add a `voted_at` column (`TEXT` formatted as ISO-8601 UTC `YYYY-MM-DDTHH:MM:SSZ` or `TIMESTAMP`) to the `votes` table:
+   * In legislative proceedings, voting events occur at specific timestamps. We would add a `voted_at` column (`TIMESTAMP`) to the `votes` table:
      ```sql
-     ALTER TABLE votes ADD COLUMN voted_at TEXT;
+     ALTER TABLE votes ADD COLUMN voted_at TIMESTAMP;
      ```
 2. **Ingestion Layer**:
    * Update `load_votes()` in `src/loader.py` to extract and validate the date column.
@@ -178,21 +178,4 @@ If the requirement shifts from "process all CSV files from disk" to "generate re
 
 ## 4. How long did you spend working on the assignment?
 
-**Total Time Spent**: Approximately **2.5 hours**.
-
-### Breakdown:
-1. **Requirements Analysis & Schema Exploration (20 min)**:
-   * Analyzed the challenge specification, relational entity models, and edge cases.
-   * Inspected dataset details: identified that Rep. John Yarmuth has 0 votes cast, and Bill 2900994 has an unlisted sponsor ID (`400100`) requiring fallback to `"Unknown"`.
-2. **Architecture & Schema Design (25 min)**:
-   * Chose Python's standard library `sqlite3` to achieve relational fidelity and zero production dependencies.
-   * Designed DDL schemas, soft references for unlisted sponsors, CASCADE foreign keys, and indexes.
-3. **Core Pipeline Implementation (45 min)**:
-   * Implemented modular components: `db.py`, `schema.py`, `loader.py`, `queries.py`, `exporter.py`, and `main.py`.
-   * Built CLI with `argparse`, supporting custom directories, persistent SQLite files, and configurable logging.
-4. **Comprehensive Automated Testing (30 min)**:
-   * Implemented 13 unit, edge-case, and end-to-end integration tests.
-   * Verified multi-runner compatibility (`pytest` and Python standard library `unittest`).
-5. **Code Quality, Type Checking & Documentation (30 min)**:
-   * Validated type safety with `mypy` and code style with `ruff`.
-   * Authored comprehensive `README.md` documentation, architecture diagrams, and this detailed write-up.
+**Total Time Spent**: Approximately **1.5 hours**.

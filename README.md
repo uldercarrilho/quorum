@@ -193,13 +193,13 @@ Full responses to the official coding challenge write-up questions are documente
    - Memory complexity is $\mathcal{O}(N)$ in `:memory:` mode or $\mathcal{O}(1)$ RAM in `--db-path` disk mode.
    - Choosing SQLite over pure Python dictionaries guarantees relational integrity, schema validation, disk spilling for massive datasets, and zero external runtime dependencies.
 2. **Future Column Additions ("Bill Voted On Date", "Co-Sponsors")**:
-   - **Bill Voted On Date**: Add `voted_at TEXT` (ISO-8601 UTC) to `votes` table, parse during ingestion, and aggregate via `MAX(v.voted_at)` in `src/queries.py`.
+   - **Bill Voted On Date**: Add `voted_at TIMESTAMP` to `votes` table, parse during ingestion, and aggregate via `MAX(v.voted_at)` in `src/queries.py`.
    - **Co-Sponsors**: Model the many-to-many relationship using a junction table `bill_cosponsors(bill_id, legislator_id)`, joining and aggregating via `COUNT(DISTINCT bc.legislator_id)` or `GROUP_CONCAT(DISTINCT cl.name, '; ')`.
 3. **Handling Targeted Entity Lists or In-Memory Sources**:
    - Add parameterized query filtering (`WHERE l.id IN (...)`), leveraging primary key indexes for $\mathcal{O}(K \log N)$ execution on a subset of size $K$.
    - Decouple ingestion via an `IngestionSource` protocol to accept CSVs, in-memory dataclass iterables, or REST API payloads interchangeably.
 4. **Time Spent**:
-   - ~2.5 hours total (Requirements & edge case discovery: 20 min; Schema & architecture design: 25 min; Core pipeline implementation: 45 min; Automated tests & edge cases: 30 min; Type safety, linting & documentation: 30 min).
+   - ~1.5 hours total.
 
 ---
 
