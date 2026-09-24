@@ -24,4 +24,4 @@ Located in `docs/challenge/`:
 
 ## Challenge Documentation
 
-Refer to [docs/challenge/Quorum Coding Challenge Legislative Data.pdf](docs/challenge/Quorum%20Coding%20Challenge%20Legislative%20Data.pdf) for the full challenge description and requirements.
+Refer to [docs/challenge/Quorum Coding Challenge Legislative Data.md](docs/challenge/Quorum%20Coding%20Challenge%20Legislative%20Data.md) (or the original [PDF](docs/challenge/Quorum%20Coding%20Challenge%20Legislative%20Data.pdf)) for the full challenge description and requirements.
