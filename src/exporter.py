@@ -3,7 +3,7 @@
 import csv
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Sequence, Union
+from typing import Any, Dict, Sequence, Union
 
 logger = logging.getLogger(__name__)
 

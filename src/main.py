@@ -55,6 +55,7 @@ def run_pipeline(
 
         # 2. Ingest CSV Data
         counts = load_all_csvs(conn, input_path)
+        logger.debug("Ingested entity counts: %s", counts)
 
         # 3. Compute Analytical Summaries
         legislator_records = get_legislator_vote_summary(conn)

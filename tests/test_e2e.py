@@ -39,6 +39,7 @@ class TestE2E(unittest.TestCase):
             # Locate Rep. John Yarmuth (who had 0 votes in vote_results)
             yarmuth_row = next((r for r in leg_rows if r["id"] == "412211"), None)
             self.assertIsNotNone(yarmuth_row)
+            assert yarmuth_row is not None
             self.assertEqual(yarmuth_row["name"], "Rep. John Yarmuth (D-KY-3)")
             self.assertEqual(int(yarmuth_row["num_supported_bills"]), 0)
             self.assertEqual(int(yarmuth_row["num_opposed_bills"]), 0)

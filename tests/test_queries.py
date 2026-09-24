@@ -1,6 +1,5 @@
 """Unit tests for analytical SQL queries and edge cases (queries.py)."""
 
-import sqlite3
 import unittest
 
 from src.db import get_connection

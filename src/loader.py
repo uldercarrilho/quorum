@@ -160,7 +160,7 @@ def load_vote_results(conn: sqlite3.Connection, csv_path: Union[str, Path]) -> i
             vote_id = _clean_int(cleaned_row.get("vote_id"))
             vote_type = _clean_int(cleaned_row.get("vote_type"))
             
-            if None in (raw_id, legislator_id, vote_id, vote_type):
+            if raw_id is None or legislator_id is None or vote_id is None or vote_type is None:
                 logger.warning("Skipping invalid row in %s at line %d: %s", path.name, line_no, row)
                 continue
             if vote_type not in (1, 2):

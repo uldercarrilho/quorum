@@ -1,6 +1,5 @@
 """Tests for the CSV ingestion engine (loader.py)."""
 
-import sqlite3
 import tempfile
 import unittest
 from pathlib import Path
@@ -11,7 +10,6 @@ from src.loader import (
     load_bills,
     load_legislators,
     load_vote_results,
-    load_votes,
 )
 from src.schema import init_schema
 

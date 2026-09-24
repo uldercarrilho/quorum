@@ -104,6 +104,7 @@ quorum/
 │   └── bills.csv
 ├── pyproject.toml     # Project metadata and pytest configuration
 ├── requirements-dev.txt # Development test tools (pytest)
+├── WRITEUP.md         # Technical write-up answering challenge evaluation questions
 └── README.md
 ```
 
@@ -181,8 +182,28 @@ Run tests without installing any third-party packages:
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
+## Technical Write-up & Evaluation Responses
+
+Full responses to the official coding challenge write-up questions are documented in detail in [`WRITEUP.md`](WRITEUP.md). Below is an executive summary:
+
+1. **Time Complexity & Tradeoffs**:
+   - Ingestion and indexing: $\mathcal{O}(N \log N)$ where $N$ is total records ($L + B + V + R$).
+   - Analytical queries: $\mathcal{O}(L \log L + R)$ for legislators and $\mathcal{O}(B \log B + R)$ for bills, accelerated by B-Tree indexes on foreign keys.
+   - Overall time complexity is $\mathcal{O}(N \log N)$, running in sub-second time.
+   - Memory complexity is $\mathcal{O}(N)$ in `:memory:` mode or $\mathcal{O}(1)$ RAM in `--db-path` disk mode.
+   - Choosing SQLite over pure Python dictionaries guarantees relational integrity, schema validation, disk spilling for massive datasets, and zero external runtime dependencies.
+2. **Future Column Additions ("Bill Voted On Date", "Co-Sponsors")**:
+   - **Bill Voted On Date**: Add `voted_at TEXT` (ISO-8601 UTC) to `votes` table, parse during ingestion, and aggregate via `MAX(v.voted_at)` in `src/queries.py`.
+   - **Co-Sponsors**: Model the many-to-many relationship using a junction table `bill_cosponsors(bill_id, legislator_id)`, joining and aggregating via `COUNT(DISTINCT bc.legislator_id)` or `GROUP_CONCAT(DISTINCT cl.name, '; ')`.
+3. **Handling Targeted Entity Lists or In-Memory Sources**:
+   - Add parameterized query filtering (`WHERE l.id IN (...)`), leveraging primary key indexes for $\mathcal{O}(K \log N)$ execution on a subset of size $K$.
+   - Decouple ingestion via an `IngestionSource` protocol to accept CSVs, in-memory dataclass iterables, or REST API payloads interchangeably.
+4. **Time Spent**:
+   - ~2.5 hours total (Requirements & edge case discovery: 20 min; Schema & architecture design: 25 min; Core pipeline implementation: 45 min; Automated tests & edge cases: 30 min; Type safety, linting & documentation: 30 min).
+
 ---
 
 ## Design Choices & Evidence
 
 A detailed record of the architectural design decisions and interview alignment is documented in [`docs/plan.md`](docs/plan.md).
+
